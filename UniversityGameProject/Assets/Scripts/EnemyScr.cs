@@ -95,6 +95,8 @@ public class EnemyScr : MonoBehaviour
 
     private void MoveOrAttack()
     {
+        GetComponent<NavMeshAgent>().stoppingDistance = 3.5f;
+
         GetComponent<NavMeshAgent>().enabled = true;
         if (Vector3.Distance(Player.transform.position, transform.position) < distAttack)
         {
@@ -104,8 +106,9 @@ public class EnemyScr : MonoBehaviour
                 (Quaternion.LookRotation(look_dir).eulerAngles.y - 0.5f <= transform.rotation.eulerAngles.y))
             {
                 RaycastHit hit;
-                Ray ray = new Ray(transform.position, transform.forward * distAttack);
-                if (!Physics.Raycast(ray, out hit))
+                Ray ray = new Ray(transform.position, Player.transform.position - transform.position);
+                Physics.Raycast(ray, out hit);
+                if (hit.collider.tag != "Object" )
                 {
                     enemyBot.isStopped = true;
                     Attack();
@@ -132,7 +135,6 @@ public class EnemyScr : MonoBehaviour
     private void Attack()
     {
         GetComponent<NavMeshAgent>().stoppingDistance = 3.5f;
-
 
         CounOfBulets = GameObject.FindGameObjectsWithTag("Bulet");
         CountOfEnemy = GameObject.FindGameObjectsWithTag("EnemyBot");
