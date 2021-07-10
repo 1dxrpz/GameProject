@@ -11,13 +11,17 @@ public class BuletCheck : MonoBehaviour
     private int counter = 0;
     private int timePokebol = 0;
 
+
+    GameObject light;
+    private void Start()
+    {
+        light = GameObject.FindGameObjectWithTag("TagForPokebols");
+    }
+
     void Update()
     {
         if (PlayerInZone)
         {
-
-            var light = GameObject.FindGameObjectWithTag("TagForPokebols");
-
             light.GetComponent<Light>().intensity = 10;
             GetComponent<Rigidbody>().useGravity = false;
             GetComponent<Rigidbody>().mass = 100f;
@@ -35,8 +39,11 @@ public class BuletCheck : MonoBehaviour
         }
         timePokebol++;
 
-        if(timePokebol >= 1000)
+        if (timePokebol >= 1000)
+        {
             Destroy(GameObject.FindGameObjectWithTag("Bulet"));
+            timePokebol = 0;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
