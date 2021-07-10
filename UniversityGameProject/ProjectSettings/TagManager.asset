@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TagForPokebols
   - Bulet
+  - Water
   layers:
   - Default
   - TransparentFX
