@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private float angle = 0;
 
     float prevangle = 0;
-
+    internal bool inWater = false;
 	private void FixedUpdate()
 	{
         prevangle = angle;
@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
 		{
             SwitchType(2);
         }
+        
 	}
     void SwitchType(int i)
 	{
@@ -109,7 +110,32 @@ public class PlayerController : MonoBehaviour
     Vector3 tempPosition;
 	void Update()
     {
-        ButtonDown = Input.anyKey;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + new Vector3(0, 10f, 0), Vector3.down, out hit))
+        {
+			if (hit.transform.tag == "Water")
+			{
+                if (!inWater)
+                {
+                    transform.Translate(new Vector3(0, -.1f, 0));
+                    inWater = true;
+                    WaterSpalsh.Play();
+                    Puff();
+                }
+			} else
+			{
+				if (inWater)
+				{
+                    transform.Translate(new Vector3(0, .1f, 0));
+                    inWater = false;
+                    WaterSpalsh.Pause();
+                    Puff();
+                }
+			}
+        }
+
+        ButtonDown = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+            Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
         
         Direction = Vector3.Normalize(Direction);
         
