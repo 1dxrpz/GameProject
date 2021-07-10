@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum PlayerType
 {
@@ -138,7 +139,10 @@ public class PlayerController : MonoBehaviour
             Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
         
         Direction = Vector3.Normalize(Direction);
-        
+
+        if (Input.GetKey(KeyCode.R))
+            SceneManager.LoadScene(1);
+
         if (Input.GetKey(KeyCode.W))
             Direction += Up;
         if (Input.GetKey(KeyCode.A))
