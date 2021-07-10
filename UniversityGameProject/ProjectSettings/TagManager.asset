@@ -7,6 +7,9 @@ TagManager:
   - TagForPokebols
   - Bulet
   - Water
+  - EnemyBot
+  - PointForMove
+  - Object
   layers:
   - Default
   - TransparentFX
