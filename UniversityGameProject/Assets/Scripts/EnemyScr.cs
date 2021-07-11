@@ -89,6 +89,7 @@ public class EnemyScr : MonoBehaviour
             enemyBot.isStopped = false;
             curentPoint = posForMove[Random.Range(0, posForMove.Length)].transform.position;
             //if(!enemyBot.hasPath)
+
             JustMove();
         }
     }
@@ -127,6 +128,7 @@ public class EnemyScr : MonoBehaviour
             //look_dir.y = 0;
             //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
             //transform.position += transform.forward * move_speed * Time.deltaTime;
+
             enemyBot.isStopped = false;
             enemyBot.destination = Player.transform.position;
         }
@@ -160,47 +162,56 @@ public class EnemyScr : MonoBehaviour
 
         if (counterForStay >= 700)
         {
-            if (!enemyBot.hasPath)
-                enemyBot.destination = curentPoint;
-            else
-            {
-                curentPoint = posForMove[Random.Range(0, posForMove.Length)].transform.position;
-            }
-            counterForStay = 0;
+            MoveAtPoint();
         }
-        counterForStay++;
+        else
+        {
+            counterForStay++;
+        }
     }
-//if (posForMove.Count == 0)
-        //{
-        //    float randomPointZ = Random.Range(-5f, 5f);
-        //    float randomPointX = Random.Range(-5f, 5f);
 
-        //    posForMove.Add(new Vector3(Random.Range(transform.position.x, transform.position.x + randomPointX), 0,
-        //        Random.Range(transform.position.z, transform.position.z + randomPointZ)));
+    private void MoveAtPoint()
+    {
+        if (!enemyBot.hasPath)
+            enemyBot.destination = curentPoint;
+        else
+        {
+            curentPoint = posForMove[Random.Range(0, posForMove.Length)].transform.position;
+        }
+        counterForStay = 0;
+    }
 
-        //    //if (GetComponent<NavMeshAgent>().Warp(a))
-        //    //    posForMove.Add(a);
-        //}
+    //if (posForMove.Count == 0)
+    //{
+    //    float randomPointZ = Random.Range(-5f, 5f);
+    //    float randomPointX = Random.Range(-5f, 5f);
 
-        //var look_dir = posForMove[0] - transform.position;
-        //look_dir.y = 0;
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
-        //transform.position += transform.forward * move_speed * Time.deltaTime;
-        
+    //    posForMove.Add(new Vector3(Random.Range(transform.position.x, transform.position.x + randomPointX), 0,
+    //        Random.Range(transform.position.z, transform.position.z + randomPointZ)));
+
+    //    //if (GetComponent<NavMeshAgent>().Warp(a))
+    //    //    posForMove.Add(a);
+    //}
+
+    //var look_dir = posForMove[0] - transform.position;
+    //look_dir.y = 0;
+    //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
+    //transform.position += transform.forward * move_speed * Time.deltaTime;
+
     //if (CheckPointTrue(transform.position, posForMove[0]))
     //{
     //    posForMove.RemoveAt(0);
     //}
 
-private bool CheckPointTrue(Vector3 curentPos, Vector3 posToDo)
-{
-    if ((posToDo.x + 0.2 > curentPos.x) && (posToDo.x - 0.2 < curentPos.x))
+    private bool CheckPointTrue(Vector3 curentPos, Vector3 posToDo)
     {
-        if ((posToDo.z + 0.2 > curentPos.z) && (posToDo.z - 0.2 < curentPos.z))
+        if ((posToDo.x + 0.2 > curentPos.x) && (posToDo.x - 0.2 < curentPos.x))
         {
-            return true;
+            if ((posToDo.z + 0.2 > curentPos.z) && (posToDo.z - 0.2 < curentPos.z))
+            {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 }
