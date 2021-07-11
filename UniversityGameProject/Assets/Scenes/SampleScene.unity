@@ -8228,21 +8228,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: FoneNusic
       objectReference: {fileID: 0}
+    - target: {fileID: 4657103609117655308, guid: 18ada2977b3efd348b3dc34ae2f446ff, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4657103609117655309, guid: 18ada2977b3efd348b3dc34ae2f446ff, type: 3}
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4657103609117655309, guid: 18ada2977b3efd348b3dc34ae2f446ff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.227556
+      value: -0.41
       objectReference: {fileID: 0}
     - target: {fileID: 4657103609117655309, guid: 18ada2977b3efd348b3dc34ae2f446ff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.1955853
+      value: 1.88
       objectReference: {fileID: 0}
     - target: {fileID: 4657103609117655309, guid: 18ada2977b3efd348b3dc34ae2f446ff, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.9030008
+      value: 3.85
       objectReference: {fileID: 0}
     - target: {fileID: 4657103609117655309, guid: 18ada2977b3efd348b3dc34ae2f446ff, type: 3}
       propertyPath: m_LocalRotation.w
