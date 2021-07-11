@@ -3,15 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainScript : MonoBehaviour
+public class MainMenuScript : MonoBehaviour
 {
-    internal static int CurrentLevel = 1;
-    
-    public void ChangeLevel()
-    {
-        SceneManager.LoadScene(CurrentLevel);
-    }
-
     void Start()
     {
         
