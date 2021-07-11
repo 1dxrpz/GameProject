@@ -77,8 +77,6 @@ public class EnemyScr : MonoBehaviour
         {
             enemyBot.isStopped = false;
             curentPoint = posForMove[Random.Range(0, posForMove.Length)].transform.position;
-            //if(!enemyBot.hasPath)
-
             JustMove();
         }
     }
@@ -91,7 +89,6 @@ public class EnemyScr : MonoBehaviour
         if (Vector3.Distance(Player.transform.position, transform.position) < distAttack)
         {
             var look_dir = (Player.transform.position - transform.position).normalized;
-            //if (Quaternion.LookRotation(look_dir).eulerAngles.y != transform.rotation.eulerAngles.y)
             if ((Quaternion.LookRotation(look_dir).eulerAngles.y + 0.5f >= transform.rotation.eulerAngles.y) &&
                 (Quaternion.LookRotation(look_dir).eulerAngles.y - 0.5f <= transform.rotation.eulerAngles.y))
             {
@@ -160,16 +157,4 @@ public class EnemyScr : MonoBehaviour
         }
         counterForStay = 0;
     }
-
-    //private bool CheckPointTrue(Vector3 curentPos, Vector3 posToDo)
-    //{
-    //    if ((posToDo.x + 0.2 > curentPos.x) && (posToDo.x - 0.2 < curentPos.x))
-    //    {
-    //        if ((posToDo.z + 0.2 > curentPos.z) && (posToDo.z - 0.2 < curentPos.z))
-    //        {
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
 }
