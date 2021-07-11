@@ -48,7 +48,7 @@ public class EnemyScr : MonoBehaviour
 
     void Update()
     {
-        bool underFloor = Player.GetComponent<PlayerController>().underFloor;
+        bool isHiden = Player.GetComponent<PlayerController>().IsHidden;
 
         RaycastHit hit;
         Ray ray = new Ray(transform.position, 
@@ -63,21 +63,10 @@ public class EnemyScr : MonoBehaviour
             wallDetect = true;
         }
 
-        if ((Vector3.Distance(Player.transform.position, transform.position) <= distDetection) && !underFloor && !wallDetect)
+        if ((Vector3.Distance(Player.transform.position, transform.position) <= distDetection) && !isHiden && !wallDetect)
             detect = true;
         else
             detect = false;
-
-        //if (underFloor && detect == true)
-        //{
-        //    detect = false;
-
-        //    if (posForMove.Count == 1)
-        //        posForMove.RemoveAt(0);
-        //    posForMove.Add(player.position);
-
-        //    JustMove();
-        //}
 
         if (detect)
         {
@@ -124,11 +113,6 @@ public class EnemyScr : MonoBehaviour
         }
         else
         {
-            //var look_dir = Player.transform.position - transform.position;
-            //look_dir.y = 0;
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
-            //transform.position += transform.forward * move_speed * Time.deltaTime;
-
             enemyBot.isStopped = false;
             enemyBot.destination = Player.transform.position;
         }
@@ -144,7 +128,6 @@ public class EnemyScr : MonoBehaviour
         if (CounOfBulets.Length < 1)
         {
             var look_dir = (Player.transform.position - transform.position).normalized;
-            //look_dir.y = 0;
 
             GameObject b = Instantiate(Bullet, base.transform.position, base.transform.rotation);
             b.tag = "Bulet";
@@ -157,8 +140,6 @@ public class EnemyScr : MonoBehaviour
     private void JustMove()
     {
         GetComponent<NavMeshAgent>().stoppingDistance = 0;
-
-        //var a = enemyBot.nextOffMeshLinkData;
 
         if (counterForStay >= 700)
         {
@@ -181,37 +162,15 @@ public class EnemyScr : MonoBehaviour
         counterForStay = 0;
     }
 
-    //if (posForMove.Count == 0)
+    //private bool CheckPointTrue(Vector3 curentPos, Vector3 posToDo)
     //{
-    //    float randomPointZ = Random.Range(-5f, 5f);
-    //    float randomPointX = Random.Range(-5f, 5f);
-
-    //    posForMove.Add(new Vector3(Random.Range(transform.position.x, transform.position.x + randomPointX), 0,
-    //        Random.Range(transform.position.z, transform.position.z + randomPointZ)));
-
-    //    //if (GetComponent<NavMeshAgent>().Warp(a))
-    //    //    posForMove.Add(a);
+    //    if ((posToDo.x + 0.2 > curentPos.x) && (posToDo.x - 0.2 < curentPos.x))
+    //    {
+    //        if ((posToDo.z + 0.2 > curentPos.z) && (posToDo.z - 0.2 < curentPos.z))
+    //        {
+    //            return true;
+    //        }
+    //    }
+    //    return false;
     //}
-
-    //var look_dir = posForMove[0] - transform.position;
-    //look_dir.y = 0;
-    //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
-    //transform.position += transform.forward * move_speed * Time.deltaTime;
-
-    //if (CheckPointTrue(transform.position, posForMove[0]))
-    //{
-    //    posForMove.RemoveAt(0);
-    //}
-
-    private bool CheckPointTrue(Vector3 curentPos, Vector3 posToDo)
-    {
-        if ((posToDo.x + 0.2 > curentPos.x) && (posToDo.x - 0.2 < curentPos.x))
-        {
-            if ((posToDo.z + 0.2 > curentPos.z) && (posToDo.z - 0.2 < curentPos.z))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 }
