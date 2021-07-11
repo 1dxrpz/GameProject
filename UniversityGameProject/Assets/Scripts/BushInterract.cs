@@ -21,7 +21,7 @@ public class BushInterract : MonoBehaviour
 	}
 	void Update()
     {
-		if (inside && collider.GetComponent<PlayerController>().PlayerType == PlayerType.Eevee)
+		if (inside && collider.GetComponent<PlayerController>() && collider.GetComponent<PlayerController>().PlayerType == PlayerType.Eevee)
 		{
 			PlayerController player = collider.GetComponent<PlayerController>();
 			if (spawn)

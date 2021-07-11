@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class MainScript : MonoBehaviour
 {
-    internal static int CurrentLevel = 1;
+    internal static int CurrentLevel = 2;
     
-    public void ChangeLevel()
+    static public void ChangeLevel()
     {
         SceneManager.LoadScene(CurrentLevel);
+    }
+    static public void ChangeLevel(int i)
+    {
+        SceneManager.LoadScene(i);
     }
 
     void Start()

@@ -10,6 +10,7 @@ TagManager:
   - EnemyBot
   - PointForMove
   - Object
+  - pokebal_loading
   layers:
   - Default
   - TransparentFX
