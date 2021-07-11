@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum PlayerType
 {
-    Eevee,
-    Flareon,
     Vaporeon,
-    Leafeon
+    Flareon,
+    Leafeon,
+    Eevee
 }
 
 public class PlayerController : MonoBehaviour
 {
     [Range(0f, 1f)]
     public float Stamina = 1f;
+    internal bool CanWalk = true;
+    internal bool IsHidden = false;
     public GameObject StaminaBar;
     public PlayerType PlayerType = PlayerType.Eevee;
     public float Speed = 2f;
@@ -61,8 +64,9 @@ public class PlayerController : MonoBehaviour
 
         Camera.orthographicSize = Mathf.Lerp(Camera.orthographicSize, ScrollSize, InterpFactor);
 
-        Velocity = Vector3.Lerp(Velocity, ButtonDown ? Vector3.Normalize(Direction) * Time.deltaTime * Speed : Vector3.zero, InterpFactor);
+        Velocity = Vector3.Lerp(Velocity, ButtonDown ? Vector3.Normalize(Direction) * Time.deltaTime * (CanWalk ? Speed : 0) : Vector3.zero, InterpFactor);
         Rigidbody.velocity = Velocity;
+
         Camera.transform.parent.position = Vector3.Lerp(Camera.transform.parent.position, transform.position, InterpFactor);
 
 		if (Mathf.Abs(angle - rt) > 180)
@@ -81,28 +85,7 @@ public class PlayerController : MonoBehaviour
             rt = Mathf.Lerp(rt, angle, InterpFactor);
         }
         transform.rotation = Quaternion.Euler(0, rt , 0);
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-            SwitchType(0);
-		}
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-            SwitchType(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-            SwitchType(2);
-        }
-        
 	}
-    void SwitchType(int i)
-	{
-		foreach (var item in PlayerIcons)
-		{
-            item.SetActive(false);
-		}
-        PlayerIcons[i].SetActive(true);
-    }
     internal bool underFloor = false;
     bool changing = false;
     float changeTime = 0;
@@ -120,6 +103,7 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.Translate(new Vector3(0, -.1f, 0));
                     inWater = true;
+                    IsHidden = true;
                     WaterSpalsh.Play();
                     Puff();
                 }
@@ -129,29 +113,26 @@ public class PlayerController : MonoBehaviour
 				{
                     transform.Translate(new Vector3(0, .1f, 0));
                     inWater = false;
+                    IsHidden = false;
                     WaterSpalsh.Pause();
                     Puff();
                 }
 			}
         }
-
-        ButtonDown = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
-            Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
-        
-        Direction = Vector3.Normalize(Direction);
-
-        if (Input.GetKey(KeyCode.R))
-            SceneManager.LoadScene(1);
-
-        if (Input.GetKey(KeyCode.W))
-            Direction += Up;
-        if (Input.GetKey(KeyCode.A))
-            Direction += Left;
-        if (Input.GetKey(KeyCode.D))
-            Direction += -Left;
-        if (Input.GetKey(KeyCode.S))
-            Direction += -Up;
-
+        ButtonDown = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+            Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) && CanWalk);
+        if (CanWalk)
+        {
+            Direction = Vector3.Normalize(Direction);
+            if (Input.GetKey(KeyCode.W))
+                Direction += Up;
+            if (Input.GetKey(KeyCode.A))
+                Direction += Left;
+            if (Input.GetKey(KeyCode.D))
+                Direction += -Left;
+            if (Input.GetKey(KeyCode.S))
+                Direction += -Up;
+		}
         MScroll = Input.GetAxis("Mouse ScrollWheel");
 
         if (Mathf.Sign(MScroll) == -1 && ScrollSize >= MinSize)
@@ -172,6 +153,7 @@ public class PlayerController : MonoBehaviour
 		{
             if (Input.GetKeyDown(KeyCode.E) && underFloor && !changing || staminaEnded && underFloor)
             {
+                IsHidden = false;
                 underFloor = false;
                 changing = true;
                 ability = false;
@@ -181,6 +163,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E) && !underFloor && !changing && Stamina > 0)
             {
+                IsHidden = true;
                 ability = true;
                 underFloor = true;
                 changing = true;
@@ -217,12 +200,21 @@ public class PlayerController : MonoBehaviour
                 StaminaBar.transform.localScale.y,
                 StaminaBar.transform.localScale.z
                 );
-    }
-    public void Puff()
+	}
+	public void Puff()
 	{
 		foreach (var item in PuffParticles)
 		{
+            item.transform.position = transform.position + new Vector3(0, -.09f, 0);
             item.Play();
 		}
 	}
+    public void Puff(Vector3 pos)
+    {
+        foreach (var item in PuffParticles)
+        {
+            item.transform.position = pos;
+            item.Play();
+        }
+    }
 }

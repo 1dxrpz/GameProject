@@ -4,45 +4,60 @@ using UnityEngine;
 
 public class FlareonTrigger : MonoBehaviour
 {
-    public PlayerController Player;
-	public Canvas UI;
+    PlayerController Player;
     GameObject interract;
+	Collider collider;
 
-    bool spawn = false;
+    bool spawn = true;
 	bool changing = false;
 
-	private void OnTriggerStay(Collider other)
+	private void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject == Player.gameObject && Player.PlayerType == PlayerType.Flareon)
+		collider = other;
+		if (other.GetComponent<PlayerController>())
 		{
-			if (!spawn)
-			{
-				interract = UI.GetComponent<UIController>().CreateInterractMark();
-				interract.transform.SetParent(UI.transform);
-				spawn = true;
-			}
+			Player = other.gameObject.GetComponent<PlayerController>();
 		}
-		
+		spawn = true;
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		spawn = false;
 		Destroy(interract);
 	}
-
-	void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-		if (interract != null && Player.PlayerType == PlayerType.Flareon)
+		if (collider && collider.gameObject.GetComponent<PlayerController>())
 		{
-			interract.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, .3f, 0));
+			if (Player.PlayerType == PlayerType.Flareon)
+			{
+				if (spawn)
+				{
+					interract = UIController.CreateMark(UIController.InterractMark);
+					interract.transform.SetParent(UIController.UI.transform);
+					spawn = false;
+				}
+			} else
+			{
+				
+				if (interract)
+				{
+					Destroy(interract);
+				}
+			}
 		}
-
+		if (interract)
+		{
+			if (Player.PlayerType == PlayerType.Flareon)
+			{
+				interract.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, .3f, 0));
+			}
+			else
+			{
+				Destroy(interract);
+			}
+		}
     }
 }
