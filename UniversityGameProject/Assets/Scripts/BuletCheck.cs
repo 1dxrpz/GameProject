@@ -7,12 +7,14 @@ public class BuletCheck : MonoBehaviour
     private bool PlayerInZone = false;
 
     public GameObject Player;
+    public GameObject zone;
+    private bool zoneCreated = false;
 
     private int counter = 0;
-    private int timePokebol = 0;
-
+    private Vector3 hitMem;
 
     GameObject light;
+    GameObject zoneCol;
     private void Start()
     {
         light = GameObject.FindGameObjectWithTag("TagForPokebols");
@@ -22,27 +24,20 @@ public class BuletCheck : MonoBehaviour
     {
         if (PlayerInZone)
         {
-            light.GetComponent<Light>().intensity = 10;
-            GetComponent<Rigidbody>().useGravity = false;
-            GetComponent<Rigidbody>().mass = 100f;
-            GetComponent<Rigidbody>().drag = 100f;
-            GetComponent<Rigidbody>().angularDrag = 100f;
-
-            transform.position += new Vector3(0, .6f * Time.deltaTime, 0);
+            transform.position = hitMem;
             counter++;
+            if (!zoneCreated)
+            {
+                zoneCol = Instantiate(zone, transform.position + new Vector3(0,0.1f,0), transform.rotation);
+                zoneCreated = true;
+            }
 
-            if(counter >= 300)
+
+            if (counter >= 300)
             {
                 Destroy(GameObject.FindGameObjectWithTag("Bulet"));
-                counter = 0;
+                Destroy(zoneCol);
             }
-        }
-        timePokebol++;
-
-        if (timePokebol >= 1000)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("Bulet"));
-            timePokebol = 0;
         }
     }
 
@@ -51,6 +46,7 @@ public class BuletCheck : MonoBehaviour
         if (other.tag == "Player")
         {
             PlayerInZone = true;
+            hitMem = transform.position;
         }
     }
 }

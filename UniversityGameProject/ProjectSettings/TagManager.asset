@@ -11,6 +11,7 @@ TagManager:
   - PointForMove
   - Object
   - pokebal_loading
+  - Zone
   layers:
   - Default
   - TransparentFX

@@ -123,13 +123,12 @@ public class EnemyScr : MonoBehaviour
         GetComponent<NavMeshAgent>().stoppingDistance = 3.5f;
 
         CounOfBulets = GameObject.FindGameObjectsWithTag("Bulet");
-        CountOfEnemy = GameObject.FindGameObjectsWithTag("EnemyBot");
 
         if (CounOfBulets.Length < 1)
         {
             var look_dir = (Player.transform.position - transform.position).normalized;
 
-            GameObject b = Instantiate(Bullet, base.transform.position, base.transform.rotation);
+            GameObject b = Instantiate(Bullet, transform.position, transform.rotation);
             b.tag = "Bulet";
 
             b.GetComponent<Rigidbody>().AddForce(look_dir * Power, ForceMode.Impulse);
