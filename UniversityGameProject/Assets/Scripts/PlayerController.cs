@@ -10,6 +10,8 @@ public enum PlayerType
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject[] Models;
+
     [Range(0f, 1f)]
     public float Stamina = 1f;
     internal bool CanWalk = true;
