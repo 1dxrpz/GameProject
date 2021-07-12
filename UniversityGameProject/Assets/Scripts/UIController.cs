@@ -25,7 +25,7 @@ public class UIController : MonoBehaviour
     {
         if (MainScript.CurrentLevel != 0)
         {
-            
+            StartLevel();
             InterractMark = Interract;
             BushMark = Bush;
             UI = GetComponent<Canvas>();
@@ -40,10 +40,6 @@ public class UIController : MonoBehaviour
     float alphaEnd = 0;
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-            StartLevel();
-        }
         if (MainScript.CurrentLevel != 0)
         {
             if (!Player.IsHidden)
@@ -107,8 +103,14 @@ public class UIController : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
+		foreach (var item in Player.Models)
+		{
+			if (item.activeSelf)
+                item.SetActive(false);
+		}
         Player.PlayerType = (PlayerType)i;
         PlayerIcons[i].gameObject.SetActive(true);
+        Player.Models[i].SetActive(true);
     }
     void ChangeAlpha(RawImage item, float a)
 	{

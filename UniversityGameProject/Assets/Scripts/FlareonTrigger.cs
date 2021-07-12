@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class FlareonTrigger : MonoBehaviour
 {
+	public ParticleController Flame;
+	public WallBehaviour Wall;
+
     PlayerController Player;
     GameObject interract;
 	Collider collider;
 
     bool spawn = true;
-	bool changing = false;
+	bool inTrigger = false;
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -16,15 +19,15 @@ public class FlareonTrigger : MonoBehaviour
 		{
 			Player = other.gameObject.GetComponent<PlayerController>();
 		}
+		inTrigger = true;
 		spawn = true;
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
+		inTrigger = false;
 		Destroy(interract);
 	}
-
-    // Update is called once per frame
     void Update()
     {
 		if (collider && collider.gameObject.GetComponent<PlayerController>())
@@ -36,6 +39,11 @@ public class FlareonTrigger : MonoBehaviour
 					interract = UIController.CreateMark(UIController.InterractMark);
 					interract.transform.SetParent(UIController.UI.transform);
 					spawn = false;
+				}
+				if (inTrigger && Input.GetKeyDown(KeyCode.E) && !Wall.Fall)
+				{
+					Wall.Fall = true;
+					Flame.Play();
 				}
 			} else
 			{
