@@ -11,7 +11,7 @@ public class triggerzoneDetect : MonoBehaviour
         GetComponent<Renderer>().material.color += new Color(0, 0, 0, 0.3f * Time.deltaTime);
 
         if (PlayerInZone && counter >= 200)
-            GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(-5f, 0.93f, 7f);
+            MainScript.ChangeLevel(2);
     }
 
     private void OnTriggerEnter(Collider other)
