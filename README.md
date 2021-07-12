@@ -8,3 +8,8 @@
 - [ ] Glaceon
 - [ ] Umbreon
 - [ ] Jolteon
+
+## Genre
+  Quest
+## Themes
+  We've got next themes: Remakes and Stealth
