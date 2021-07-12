@@ -1,3 +1,4 @@
+![alt text](https://i.imgur.com/BpqWPss.png)
 # About project
   This University project belongs to 12 day summer school, DML, where you have to make game with given genres
   Both Unity and Unreal Engine are acceptable, same as Maya or Blender (for models)
