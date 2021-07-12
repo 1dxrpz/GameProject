@@ -5,6 +5,10 @@ public class EnemyScr : MonoBehaviour
 {
     private NavMeshAgent enemyBot;
 
+    private int counterForAttak = 0;
+
+    internal bool isTroww = false;
+
     [Header("Игрок")]
     public GameObject Player;
 
@@ -69,11 +73,13 @@ public class EnemyScr : MonoBehaviour
 
         if (detect)
         {
+            //isTroww = true;
             MoveOrAttack();
         }
 
         if (!detect)
         {
+            isTroww = false;
             enemyBot.isStopped = false;
             curentPoint = posForMove[Random.Range(0, posForMove.Length)].transform.position;
             JustMove();
@@ -97,6 +103,7 @@ public class EnemyScr : MonoBehaviour
                 if (hit.collider.tag != "Object" )
                 {
                     enemyBot.isStopped = true;
+                    isTroww = true;
                     Attack();
                 }
             }
@@ -109,6 +116,7 @@ public class EnemyScr : MonoBehaviour
         }
         else
         {
+            isTroww = false;
             enemyBot.isStopped = false;
             enemyBot.destination = Player.transform.position;
         }
@@ -122,12 +130,18 @@ public class EnemyScr : MonoBehaviour
 
         if (CounOfBulets.Length < 1)
         {
-            var look_dir = (Player.transform.position - transform.position).normalized;
+            if (counterForAttak >= 250)
+            {
+                var look_dir = (Player.transform.position - transform.position).normalized;
 
-            GameObject b = Instantiate(Bullet, transform.position, transform.rotation);
-            b.tag = "Bulet";
+                GameObject b = Instantiate(Bullet, transform.position, transform.rotation);
+                b.tag = "Bulet";
 
-            b.GetComponent<Rigidbody>().AddForce(look_dir * Power, ForceMode.Impulse);
+                b.GetComponent<Rigidbody>().AddForce(look_dir * Power, ForceMode.Impulse);
+                isTroww = false;
+                counterForAttak = 0;
+            }
+            counterForAttak++;
         }
     }
 

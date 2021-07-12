@@ -16,6 +16,7 @@ public class BuletCheck : MonoBehaviour
     private void Start()
     {
         light = GameObject.FindGameObjectWithTag("TagForPokebols");
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
