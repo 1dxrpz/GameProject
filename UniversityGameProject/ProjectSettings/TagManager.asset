@@ -12,6 +12,7 @@ TagManager:
   - Object
   - pokebal_loading
   - Zone
+  - AnimEnemy
   layers:
   - Default
   - TransparentFX
